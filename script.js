@@ -203,3 +203,89 @@ function checkSuspiciousDomain(hostname) {
         found: hasSuspiciousPattern
     };
 }
+// ... (previous JS code including performPhishingAnalysis and checkSuspiciousDomain) ...
+
+// Individual check functions
+function checkSuspiciousDomain(hostname) {
+    // ... (existing code) ...
+}
+
+function checkSubdomainAbuse(hostname) {
+    const parts = hostname.split('.');
+    const hasExcessiveSubdomains = parts.length > 4; // e.g., login.secure.bankofamerica.com.phishing.site
+    const hasSuspiciousSubdomain = parts.some(part => 
+        /secure|login|verify|update|account/.test(part)
+    );
+
+    return {
+        type: 'Subdomain Abuse',
+        severity: 'medium',
+        description: 'Suspicious use of subdomains',
+        found: hasExcessiveSubdomains || hasSuspiciousSubdomain
+    };
+}
+
+function checkSuspiciousTLD(hostname) {
+    const suspiciousTLDs = ['.tk', '.ml', '.ga', '.cf', '.top', '.click', '.download', '.zip']; // Common free/phishing TLDs
+    const found = suspiciousTLDs.some(tld => hostname.endsWith(tld));
+
+    return {
+        type: 'Suspicious TLD',
+        severity: 'medium',
+        description: 'Domain uses a suspicious top-level domain',
+        found
+    };
+}
+
+function checkIPAddress(hostname) {
+    const ipRegex = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; // Regex for IPv4
+    const found = ipRegex.test(hostname);
+
+    return {
+        type: 'IP Address Usage',
+        severity: 'high',
+        description: 'URL uses IP address instead of domain name',
+        found
+    };
+}
+
+// Update performPhishingAnalysis to include new checks
+function performPhishingAnalysis(url) {
+    const indicators = [];
+    let riskScore = 0;
+
+    try {
+        const normalizedUrl = url.toLowerCase().trim();
+        const urlObj = new URL(normalizedUrl.startsWith('http') ? normalizedUrl : `https://${normalizedUrl}`);
+
+        // Add all check functions to the checks array
+        const checks = [
+            checkSuspiciousDomain(urlObj.hostname),
+            checkSubdomainAbuse(urlObj.hostname),
+            checkSuspiciousTLD(urlObj.hostname),
+            checkIPAddress(urlObj.hostname)
+        ];
+
+        checks.forEach(indicator => {
+            indicators.push(indicator);
+            if (indicator.found) {
+                riskScore += indicator.severity === 'high' ? 3 : indicator.severity === 'medium' ? 2 : 1;
+            }
+        });
+
+        const riskLevel = riskScore >= 8 ? 'high' : riskScore >= 4 ? 'medium' : 'low';
+        // Still using dummy summary and recommendations
+        return {
+            url,
+            riskLevel,
+            riskScore,
+            indicators,
+            summary: `Risk level: ${riskLevel}, Score: ${riskScore}. Found indicators: ${indicators.filter(i => i.found).map(i => i.type).join(', ')}`,
+            recommendations: []
+        };
+
+    } catch (error) {
+        // ... (existing error handling) ...
+    }
+}
+// ... (rest of JS code) ...
