@@ -289,3 +289,124 @@ function performPhishingAnalysis(url) {
     }
 }
 // ... (rest of JS code) ...
+// ... (previous JS code, including check functions from Day 9) ...
+
+// Individual check functions
+function checkURLLength(url) {
+    const found = url.length > 100; // Arbitrary long URL threshold
+
+    return {
+        type: 'Excessive URL Length',
+        severity: 'low',
+        description: 'URL is unusually long',
+        found
+    };
+}
+
+function checkHTTPSUsage(protocol) {
+    const found = protocol === 'http:'; // True if not HTTPS
+
+    return {
+        type: 'No HTTPS',
+        severity: 'medium',
+        description: 'Site does not use HTTPS encryption',
+        found
+    };
+}
+
+function checkCommonPhishingPatterns(url) {
+    const phishingPatterns = [
+        /bit\.ly|tinyurl|t\.co|goo\.gl|ow\.ly|short/, // URL shorteners
+        /free|prize|winner|congratulations|urgent|immediate/, // Urgency/lure keywords
+        /click-here|download-now|verify-now|update-now/ // Call to action keywords
+    ];
+
+    const found = phishingPatterns.some(pattern => pattern.test(url.toLowerCase()));
+
+    return {
+        type: 'Phishing Patterns',
+        severity: 'high',
+        description: 'URL contains common phishing keywords or uses URL shorteners',
+        found
+    };
+}
+
+// Summary and Recommendation Generators
+function generateSummary(riskLevel, riskScore, indicators) {
+    const foundIndicators = indicators.filter(i => i.found).length;
+    
+    switch (riskLevel) {
+        case 'high':
+            return `HIGH RISK: This URL shows ${foundIndicators} suspicious indicators with a risk score of ${riskScore}. Avoid visiting this link.`;
+        case 'medium':
+            return `MEDIUM RISK: This URL has ${foundIndicators} potential issues with a risk score of ${riskScore}. Exercise caution.`;
+        case 'low':
+            return `LOW RISK: This URL appears relatively safe with ${foundIndicators} minor concerns and a risk score of ${riskScore}.`;
+        default:
+            return 'Unable to assess risk level.';
+    }
+}
+
+function generateRecommendations(riskLevel) {
+    const recommendations = [];
+    
+    if (riskLevel === 'high') {
+        recommendations.push('Do not visit this URL');
+        recommendations.push('Report this link to your IT security team');
+        recommendations.push('Delete any messages containing this link');
+    } else if (riskLevel === 'medium') {
+        recommendations.push('Exercise extreme caution if visiting');
+        recommendations.push('Verify the link through official channels');
+        recommendations.push('Use a secure browser with up-to-date security features');
+    } else { // Low risk
+        recommendations.push('URL appears relatively safe');
+        recommendations.push('Still verify the source if received unexpectedly');
+    }
+
+    return recommendations;
+}
+
+// Update performPhishingAnalysis to include all checks and use generators
+function performPhishingAnalysis(url) {
+    const indicators = [];
+    let riskScore = 0;
+
+    try {
+        const normalizedUrl = url.toLowerCase().trim();
+        const urlObj = new URL(normalizedUrl.startsWith('http') ? normalizedUrl : `https://${normalizedUrl}`);
+
+        const checks = [
+            checkSuspiciousDomain(urlObj.hostname),
+            checkSubdomainAbuse(urlObj.hostname),
+            checkSuspiciousTLD(urlObj.hostname),
+            checkIPAddress(urlObj.hostname),
+            checkURLLength(url), // New
+            checkHTTPSUsage(urlObj.protocol), // New
+            checkCommonPhishingPatterns(url) // New
+        ];
+
+        checks.forEach(indicator => {
+            indicators.push(indicator);
+            if (indicator.found) {
+                riskScore += indicator.severity === 'high' ? 3 : indicator.severity === 'medium' ? 2 : 1;
+            }
+        });
+
+        const riskLevel = riskScore >= 8 ? 'high' : riskScore >= 4 ? 'medium' : 'low';
+        const summary = generateSummary(riskLevel, riskScore, indicators); // Use generator
+        const recommendations = generateRecommendations(riskLevel); // Use generator
+
+        return {
+            url,
+            riskLevel,
+            riskScore,
+            indicators,
+            summary,
+            recommendations
+        };
+
+    } catch (error) {
+        // ... (existing error handling) ...
+    }
+}
+// ... (rest of JS code) ...
