@@ -410,3 +410,85 @@ function performPhishingAnalysis(url) {
     }
 }
 // ... (rest of JS code) ...
+// ... (previous JS code, including analysis functions) ...
+
+// URL Analysis (updated to call displayResults)
+async function analyzeURL() {
+    const urlInput = document.getElementById('urlInput');
+    const checkBtn = document.getElementById('checkBtn');
+    const checkBtnText = document.getElementById('checkBtnText');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultsSection = document.getElementById('resultsSection');
+    
+    const url = urlInput.value.trim();
+    if (!url) return;
+
+    // Show loading state
+    checkBtn.disabled = true;
+    checkBtnText.textContent = 'Checking...';
+    loadingSpinner.classList.remove('hidden');
+
+    // Simulate analysis delay
+    setTimeout(() => {
+        const analysis = performPhishingAnalysis(url);
+        displayResults(analysis); // <--- Call displayResults here
+        // addToHistory(analysis); // Will implement history later
+        
+        // Reset button state
+        checkBtn.disabled = false;
+        checkBtnText.textContent = 'Check';
+        loadingSpinner.classList.add('hidden');
+        
+        // Show results
+        resultsSection.classList.remove('hidden');
+    }, 1500);
+}
+
+// ... (Individual check functions and generators) ...
+
+// Display results
+function displayResults(analysis) {
+    const resultsContainer = document.getElementById('analysisResults');
+    const riskClass = `risk-${analysis.riskLevel}`;
+    const riskIcon = analysis.riskLevel === 'high' ? 
+        `<svg class="icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` :
+        analysis.riskLevel === 'medium' ?
+        `<svg class="icon animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>` :
+        `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`;
+
+    resultsContainer.innerHTML = `
+        <div class="risk-indicator">
+            <span class="${riskClass}">${riskIcon}</span>
+            <h3 class="font-semibold">Risk Assessment</h3>
+            <span class="risk-badge ${analysis.riskLevel}">${analysis.riskLevel.toUpperCase()}</span>
+            <span style="margin-left: 1rem; font-family: monospace;">${analysis.riskScore}/10</span>
+        </div>
+        
+        <div class="mb-4">
+            <p><strong>URL:</strong> ${analysis.url}</p>
+            <p class="mb-4">${analysis.summary}</p>
+        </div>
+
+        <div class="mb-4">
+            <h4 class="font-semibold mb-2">Detected Issues:</h4>
+            ${analysis.indicators.filter(i => i.found).map(indicator => `
+                <div class="tip-item">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="risk-${indicator.severity} font-semibold">${indicator.type}</span>
+                        <span class="risk-badge ${indicator.severity}">${indicator.severity}</span>
+                    </div>
+                    <p class="text-sm">${indicator.description}</p>
+                </div>
+            `).join('')}
+            ${analysis.indicators.filter(i => i.found).length === 0 ? '<p class="text-sm" style="color: var(--text-secondary);">No major issues detected.</p>' : ''}
+        </div>
+
+        <div>
+            <h4 class="font-semibold mb-2">Recommendations:</h4>
+            <ul style="list-style: disc; padding-left: 1.5rem;">
+                ${analysis.recommendations.map(rec => `<li class="mb-1">${rec}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+}
+// ... (rest of JS code) ...
