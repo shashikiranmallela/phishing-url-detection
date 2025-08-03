@@ -90,37 +90,21 @@
                     </ul>
                 </div>
             </div>
-    <div id="analysisResults">
-                <div class="risk-indicator">
-                    <span class="risk-low"></span>
-                    <h3 class="font-semibold">Risk Assessment</h3>
-                    <span class="risk-badge low">LOW</span>
-                    <span style="margin-left: 1rem; font-family: monospace;">0/10</span>
-                </div>
-                
-                <div class="mb-4">
-                    <p><strong>URL:</strong> https://example.com</p>
-                    <p class="mb-4">This URL appears relatively safe.</p>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold mb-2">Detected Issues:</h4>
-                    <div class="tip-item">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="risk-low font-semibold">No major issues</span>
-                            <span class="risk-badge low">low</span>
-                        </div>
-                        <p class="text-sm" style="color: var(--text-secondary);">No major issues detected.</p>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold mb-2">Recommendations:</h4>
-                    <ul style="list-style: disc; padding-left: 1.5rem;">
-                        <li class="mb-1">URL appears relatively safe</li>
-                    </ul>
-                </div>
-            </div>
+    <div class="action-buttons animate-fade-in-delayed">
+            <button class="action-btn" onclick="toggleHistory()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Scan History
+            </button>
+            <button class="action-btn tips-btn" onclick="toggleTips()">
+                <svg class="icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                Safe Browse Tips
+            </button>
+        </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
