@@ -301,3 +301,39 @@ body.dark-theme {
 .text-center { text-align: center; }
 .font-semibold { font-weight: 600; }
 .text-sm { font-size: 0.875rem; }
+/* ... (previous CSS) ... */
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.action-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tips-btn {
+    background: #d97706; /* Tailwind 'amber-600' equivalent */
+    color: white;
+}
+
+.tips-btn:hover {
+    background: #b45309; /* Darker amber */
+}

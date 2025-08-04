@@ -574,3 +574,15 @@ function displayResults(analysis) {
     `;
 }
 // ... (rest of JS code) ...
+// ... (previous JS code) ...
+
+// Toggle functions
+function toggleHistory() {
+    const historySection = document.getElementById('historySection');
+    historySection.classList.toggle('hidden');
+}
+
+function toggleTips() {
+    const tipsSection = document.getElementById('tipsSection');
+    tipsSection.classList.toggle('hidden');
+}
