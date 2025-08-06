@@ -586,3 +586,127 @@ function toggleTips() {
     const tipsSection = document.getElementById('tipsSection');
     tipsSection.classList.toggle('hidden');
 }
+// ... (Global variables and existing functions) ...
+
+// Initialize the application (updated to renderHistory)
+function init() {
+    loadTheme();
+    renderTips(); // Make sure tips are rendered on load
+    renderHistory(); // <--- Call renderHistory on init
+    
+    // Add enter key listener to input
+    document.getElementById('urlInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            analyzeURL();
+        }
+    });
+}
+
+// ... (Theme and URL Analysis functions) ...
+
+// URL Analysis (updated to call addToHistory)
+async function analyzeURL() {
+    const urlInput = document.getElementById('urlInput');
+    const checkBtn = document.getElementById('checkBtn');
+    const checkBtnText = document.getElementById('checkBtnText');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultsSection = document.getElementById('resultsSection');
+    
+    const url = urlInput.value.trim();
+    if (!url) return;
+
+    // Show loading state
+    checkBtn.disabled = true;
+    checkBtnText.textContent = 'Checking...';
+    loadingSpinner.classList.remove('hidden');
+
+    // Simulate analysis delay
+    setTimeout(() => {
+        const analysis = performPhishingAnalysis(url);
+        displayResults(analysis);
+        addToHistory(analysis); // <--- Call addToHistory here
+        
+        // Reset button state
+        checkBtn.disabled = false;
+        checkBtnText.textContent = 'Check';
+        loadingSpinner.classList.add('hidden');
+        
+        // Show results
+        resultsSection.classList.remove('hidden');
+    }, 1500);
+}
+
+// ... (Individual check functions and generators) ...
+
+// Display results (existing code)
+function displayResults(analysis) {
+    // ... (existing code) ...
+}
+
+// History management
+function addToHistory(analysis) {
+    const historyItem = {
+        id: Date.now(), // Unique ID for keying if needed
+        url: analysis.url,
+        riskLevel: analysis.riskLevel,
+        timestamp: new Date().toLocaleString(),
+        riskScore: analysis.riskScore
+    };
+    
+    scanHistory.unshift(historyItem); // Add to the beginning
+    scanHistory = scanHistory.slice(0, 10); // Keep only the last 10 items
+    renderHistory(); // Re-render history after adding
+}
+
+function renderHistory() {
+    const historyList = document.getElementById('historyList');
+    
+    if (scanHistory.length === 0) {
+        historyList.innerHTML = `
+            <div class="text-center" style="padding: 2rem; color: var(--text-tertiary);">
+                <svg class="icon-lg animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <p>No scans yet. Start by checking a URL above!</p>
+            </div>
+        `;
+        return;
+    }
+
+    historyList.innerHTML = scanHistory.map((item, index) => {
+        const riskIcon = item.riskLevel === 'high' ? 
+            `<svg class="icon risk-high animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` :
+            item.riskLevel === 'medium' ?
+            `<svg class="icon risk-medium animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>` :
+            `<svg class="icon risk-low" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`;
+
+        return `
+            <div class="history-item animate-slide-in-left" style="animation-delay: ${index * 100}ms;">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3 flex-1">
+                        ${riskIcon}
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <p class="font-semibold text-sm" style="color: var(--text-primary);">${item.url}</p>
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-tertiary);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-tertiary);">${item.timestamp}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm" style="color: var(--text-secondary); font-family: monospace;">${item.riskScore}/10</span>
+                        <span class="risk-badge ${item.riskLevel}">${item.riskLevel.toUpperCase()}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function clearHistory() {
+    scanHistory = [];
+    renderHistory(); // Re-render to show empty state
+}
+// ... (rest of JS code) ...
