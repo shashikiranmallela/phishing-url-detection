@@ -337,3 +337,87 @@ body.dark-theme {
 .tips-btn:hover {
     background: #b45309; /* Darker amber */
 }
+// ... (Global variables) ...
+
+// Safe Browse tips data
+const safeBrowseTips = [
+    {
+        title: "Check the URL carefully",
+        description: "Look for misspellings, suspicious domains, or unusual characters in the web address.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`
+    },
+    {
+        title: "Look for HTTPS",
+        description: "Ensure the website uses HTTPS (secure connection) especially for login pages and payments.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>`
+    },
+    {
+        title: "Be wary of urgent messages",
+        description: "Phishing emails often create false urgency. Take time to verify before clicking links.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`
+    },
+    {
+        title: "Verify through official channels",
+        description: "If you receive a suspicious link, visit the official website directly instead of clicking.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+    },
+    {
+        title: "Use updated security software",
+        description: "Keep your browser and antivirus software up to date for better protection.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`
+    },
+    {
+        title: "Double-check email senders",
+        description: "Verify the sender's email address and be suspicious of unexpected messages.",
+        icon: `<svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+    }
+];
+// ... (init, theme, analysis, history functions) ...
+/* ... (previous CSS) ... */
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem; /* Center horizontally */
+    padding: 1rem;
+    border-radius: 50%; /* Circle shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon.purple { background: rgba(124, 58, 237, 0.2); }
+.feature-icon.blue { background: rgba(59, 130, 246, 0.2); }
+.feature-icon.green { background: rgba(16, 185, 129, 0.2); }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .title { font-size: 2rem; }
+    .subtitle { font-size: 1.25rem; }
+    .description { font-size: 1rem; }
+    .input-section { flex-direction: column; } /* Stack input and button */
+    .action-buttons { flex-direction: column; align-items: center; } /* Stack action buttons */
+    .features-grid { grid-template-columns: 1fr; } /* Single column for features */
+}
