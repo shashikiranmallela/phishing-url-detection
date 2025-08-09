@@ -710,3 +710,40 @@ function clearHistory() {
     renderHistory(); // Re-render to show empty state
 }
 // ... (rest of JS code) ...
+// ... (existing code, including safeBrowseTips array) ...
+
+// Initialize the application (updated to renderTips)
+function init() {
+    loadTheme();
+    renderTips(); // <--- Call renderTips here
+    renderHistory(); 
+    
+    // Add enter key listener to input
+    document.getElementById('urlInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            analyzeURL();
+        }
+    });
+}
+
+// ... (Theme, URL Analysis, History functions) ...
+
+// Tips management
+function renderTips() {
+    const tipsList = document.getElementById('tipsList');
+    tipsList.innerHTML = safeBrowseTips.map((tip, index) => `
+        <div class="tip-item animate-slide-in-left" style="animation-delay: ${index * 150}ms;">
+            <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 mt-1">
+                    ${tip.icon}
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-1" style="color: var(--text-primary);">${tip.title}</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);">${tip.description}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ... (Toggle functions and DOMContentLoaded listener) ...
