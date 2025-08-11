@@ -1,5 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hackathon-sparkle-code-magic</title>
+    <meta name="description" content="Lovable Generated Project" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="hackathon-sparkle-code-magic" />
+    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +30,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dark-theme">
-    <body class="dark-theme">
+    <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()">
         <svg class="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" id="sun-icon" style="display: none;"></path>
@@ -15,6 +38,7 @@
         </svg>
     </button>
 
+    <!-- Header -->
     <div class="header">
         <div class="container">
             <div class="header-content animate-fade-in">
@@ -32,9 +56,10 @@
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="container">
-        </div>
-    <div class="card animate-slide-up">
+        <!-- URL Input -->
+        <div class="card animate-slide-up">
             <div class="input-section">
                 <input type="url" class="url-input" id="urlInput" placeholder="https://example.com">
                 <button class="check-btn" onclick="analyzeURL()" id="checkBtn">
@@ -44,53 +69,8 @@
             </div>
         </div>
 
+        <!-- Action Buttons -->
         <div class="action-buttons animate-fade-in-delayed">
-            </div>
-
-        <div class="card hidden animate-slide-down" id="historySection">
-            </div>
-
-        <div class="card hidden animate-slide-down" id="tipsSection">
-            </div>
-
-        <div class="card hidden animate-slide-up" id="resultsSection">
-            <div id="analysisResults"></div>
-        </div>
-
-        <div class="card animate-fade-in-delayed" style="margin-top: 4rem;">
-            </div>
-    <div id="analysisResults">
-                <div class="risk-indicator">
-                    <span class="risk-low"></span>
-                    <h3 class="font-semibold">Risk Assessment</h3>
-                    <span class="risk-badge low">LOW</span>
-                    <span style="margin-left: 1rem; font-family: monospace;">0/10</span>
-                </div>
-                
-                <div class="mb-4">
-                    <p><strong>URL:</strong> https://example.com</p>
-                    <p class="mb-4">This URL appears relatively safe.</p>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold mb-2">Detected Issues:</h4>
-                    <div class="tip-item">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="risk-low font-semibold">No major issues</span>
-                            <span class="risk-badge low">low</span>
-                        </div>
-                        <p class="text-sm" style="color: var(--text-secondary);">No major issues detected.</p>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold mb-2">Recommendations:</h4>
-                    <ul style="list-style: disc; padding-left: 1.5rem;">
-                        <li class="mb-1">URL appears relatively safe</li>
-                    </ul>
-                </div>
-            </div>
-    <div class="action-buttons animate-fade-in-delayed">
             <button class="action-btn" onclick="toggleHistory()">
                 <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -101,10 +81,12 @@
                 <svg class="icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                 </svg>
-                Safe Browse Tips
+                Safe Browsing Tips
             </button>
         </div>
-    <div class="card hidden animate-slide-down" id="historySection">
+
+        <!-- Scan History -->
+        <div class="card hidden animate-slide-down" id="historySection">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="font-semibold">
                     <svg class="icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; margin-right: 0.5rem;">
@@ -125,16 +107,25 @@
                 </div>
             </div>
         </div>
-    <div class="card hidden animate-slide-down" id="tipsSection">
+
+        <!-- Safe Browsing Tips -->
+        <div class="card hidden animate-slide-down" id="tipsSection">
             <h3 class="font-semibold mb-4">
                 <svg class="icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; margin-right: 0.5rem;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                 </svg>
-                Safe Browse Tips
+                Safe Browsing Tips
             </h3>
             <div class="features-grid" id="tipsList"></div>
         </div>
-    <div class="card animate-fade-in-delayed" style="margin-top: 4rem;">
+
+        <!-- Analysis Results -->
+        <div class="card hidden animate-slide-up" id="resultsSection">
+            <div id="analysisResults"></div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="card animate-fade-in-delayed" style="margin-top: 4rem;">
             <h3 class="text-center font-semibold" style="font-size: 2rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 2rem;">
                 Why Use TrapClick?
             </h3>
@@ -178,7 +169,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
-    
