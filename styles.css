@@ -14,7 +14,7 @@ body {
 /* Theme Variables */
 .light-theme {
     --bg-primary: #ffffff;
-    --bg-secondary: rgba(255, 255, 255, 0.8);
+    --bg-secondary: rgba(254, 255, 255, 0.8);
     --bg-tertiary: rgba(249, 250, 251, 1);
     --text-primary: #111827;
     --text-secondary: #6b7280;
